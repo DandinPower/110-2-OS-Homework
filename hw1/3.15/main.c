@@ -52,7 +52,7 @@ int main(int argc, char *argv[]){
         return 1;
     }
     else if (pid == 0) {
-        char *answer = ThreeNPlusOne_Recursive(n,output);
+        char *answer = ThreeNPlusOne_Recursive(atoi(n),output);
         sprintf(ptr,"%s",answer);
     }
     else {
