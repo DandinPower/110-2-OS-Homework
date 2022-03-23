@@ -40,7 +40,7 @@ int main(int argc, char *argv[]){
     fd = shm_open(name,O_CREAT | O_RDWR,0666);
     ftruncate(fd, SIZE);
     ptr = (char *)mmap(0, SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-    char *answer = ThreeNPlusOne_Recursive(n,output)
+    char *answer = ThreeNPlusOne_Recursive(n,output);
     sprintf(ptr,"%s",answer);
     ptr += strlen(answer);
     printf("%s",ptr);
