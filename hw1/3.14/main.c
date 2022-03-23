@@ -16,9 +16,13 @@ int main(int argc,char *argv[]){
     char *n = argv[1];
     pid_t pid;
     pid = fork();
-    if (pid < 0) { 
-    fprintf(stderr, "Fork Failed\n");
-    return 1;
+    if (atoi(n) <= 0) {
+        printf("error n\n");
+        return 1;
+    }
+    else if (pid < 0) { 
+        fprintf(stderr, "Fork Failed\n");
+        return 1;
     }
     else if (pid == 0) {
         ThreeNPlusOne_Recursive(atoi(n));
