@@ -17,7 +17,7 @@ int main(int argc,char *argv[]){
     pid_t pid;
     pid = fork();
     if (pid < 0) { 
-    fprintf(stderr, "Fork Failed");
+    fprintf(stderr, "Fork Failed\n");
     return 1;
     }
     else if (pid == 0) {
@@ -25,7 +25,7 @@ int main(int argc,char *argv[]){
     }
     else {
         wait(NULL);
-        printf("Child Complete");
+        printf("Child Complete\n");
     }
     return 0;
 }
