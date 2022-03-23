@@ -32,7 +32,11 @@ char *ThreeNPlusOne_Recursive(int n,char *output){
 }
 
 int main(int argc, char *argv[]){
-    int n = 35;
+    char *n = argv[1];
+    if (atoi(n) <= 0) {
+        printf("error n\n");
+        return 1;
+    }
     char *output = "";
     const int SIZE = 4096;
     const char *name = "OS";
@@ -41,9 +45,21 @@ int main(int argc, char *argv[]){
     fd = shm_open(name,O_CREAT | O_RDWR,0666);
     ftruncate(fd, SIZE);
     ptr = (char *)mmap(0, SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-    char *answer = ThreeNPlusOne_Recursive(n,output);
-    sprintf(ptr,"%s",answer);
-    ptr += strlen(answer);
-    printf("%s",ptr);
+    pid_t pid;
+    pid = fork();
+    if (pid < 0) { 
+        fprintf(stderr, "Fork Failed\n");
+        return 1;
+    }
+    else if (pid == 0) {
+        char *answer = ThreeNPlusOne_Recursive(n,output);
+        sprintf(ptr,"%s",answer);
+    }
+    else {
+        wait(NULL);
+        printf("%s",(char *)ptr);
+        shm_unlink(name);
+        printf("Child Complete\n");
+    }
     return 0;
 }
