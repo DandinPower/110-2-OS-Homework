@@ -5,7 +5,7 @@
 #include <unistd.h>
 
 int ThreeNPlusOne_Recursive(int n){
-    if (n== 1)printf("%d.",n);
+    if (n== 1)printf("%d.\n",n);
     else printf("%d,",n);
     if (n== 1) return 1;
     else if(n % 2 == 1) return ThreeNPlusOne_Recursive(3*n + 1) + 1;
