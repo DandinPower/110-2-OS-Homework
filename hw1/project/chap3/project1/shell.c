@@ -30,11 +30,12 @@ int main(void){
             }
         }
         else {
+            /*
             if (strcmp(args[i], "&")){
                 wait(NULL);
                 printf("%s\n",args[i]);
                 printf("Child Complete\n");
-            }
+            }*/
         }
 
     }
