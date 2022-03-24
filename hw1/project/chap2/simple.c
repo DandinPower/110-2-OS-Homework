@@ -8,12 +8,12 @@ MODULE_AUTHOR("108590045");
 
 static int __init simple_init(void)
 {
-    printk("Loading Kernel Module∖n");
+    printk("Loading Kernel Module\n");
     return 0;
 }
 static void __exit simple_exit(void)
 {
-    printk("Removing Kernel Module∖n");
+    printk("Removing Kernel Module\n");
 }
 
 module_init(simple_init);
