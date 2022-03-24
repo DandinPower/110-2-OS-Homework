@@ -29,7 +29,7 @@ int main(void){
             for(int j=0;j<=i;j++){
                 printf("%s\n",args[j]);
             }*/
-            execvp(char args[0], args);
+            execvp(args[0], args);
         }
         else {
             wait(NULL);
