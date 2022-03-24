@@ -22,7 +22,8 @@ static LIST_HEAD(birthday_list);
 static int __init birthday_init(void)
 {
     printk(KERN_INFO "Loading Birthday Module and Create Birthday List\n");
-    struct birthday *elmo;
+    
+    birthday *elmo;
     elmo = kmalloc(sizeof(*elmo), GFP_KERNEL);
     elmo->year = 1998;
     elmo->month = 2;
@@ -30,7 +31,7 @@ static int __init birthday_init(void)
     INIT_LIST_HEAD(&elmo->list);
     list_add_tail(&elmo->list,&birthday_list);
 
-    struct birthday *bert;
+    birthday *bert;
     bert = kmalloc(sizeof(*bert), GFP_KERNEL);
     bert->year = 2003;
     bert->month = 4;
@@ -38,7 +39,7 @@ static int __init birthday_init(void)
     INIT_LIST_HEAD(&bert->list);
     list_add_tail(&bert->list,&birthday_list);
 
-    struct birthday *bigbird;
+    birthday *bigbird;
     bigbird = kmalloc(sizeof(*bigbird), GFP_KERNEL);
     bigbird->year = 1969;
     bigbird->month = 3;
@@ -46,7 +47,7 @@ static int __init birthday_init(void)
     INIT_LIST_HEAD(&bigbird->list);
     list_add_tail(&bigbird->list,&birthday_list);
 
-    struct birthday *emie;
+    birthday *emie;
     emie = kmalloc(sizeof(*emie), GFP_KERNEL);
     emie->year = 2000;
     emie->month = 12;
@@ -54,7 +55,7 @@ static int __init birthday_init(void)
     INIT_LIST_HEAD(&emie->list);
     list_add_tail(&emie->list,&birthday_list);
 
-    struct birthday *grover;
+    birthday *grover;
     grover = kmalloc(sizeof(*grover), GFP_KERNEL);
     grover->year = 1972;
     grover->month = 10;
@@ -62,7 +63,7 @@ static int __init birthday_init(void)
     INIT_LIST_HEAD(&grover->list);
     list_add_tail(&grover->list,&birthday_list);
 
-    struct birthday *ptr;
+    birthday *ptr;
     list_for_each_entry(ptr, &birthday_list, list){
         printk(KERN_INFO "Year-Month-Day: %d-%d-%d\n",ptr->year,ptr->month,ptr->day);
     }
