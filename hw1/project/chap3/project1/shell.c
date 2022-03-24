@@ -30,7 +30,6 @@ int main(void){
         int isWait = 1;
         if(strcmp(args[i],"&")==0){
             isWait = 0;
-            free(args[i]);
             args[i] = NULL;
         }
         pid_t pid;
