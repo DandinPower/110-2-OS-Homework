@@ -1,20 +1,16 @@
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/kernel.h>
-#include <linux/list.h>
 #include <linux/types.h> 
 #include <linux/slab.h>
-
-MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("BirthdayModule");
-MODULE_AUTHOR("108590045");
+#include <linux/list.h>
 
 struct birthday {
     int year;
     int month;
     int day;
     struct list_head list;
-}
+};
 
 static LIST_HEAD(birthday_list);
 
@@ -84,3 +80,7 @@ static void __exit birthday_exit(void)
 
 module_init(birthday_init);
 module_exit(birthday_exit);
+
+MODULE_LICENSE("GPL");
+MODULE_DESCRIPTION("BirthdayModule");
+MODULE_AUTHOR("108590045");
