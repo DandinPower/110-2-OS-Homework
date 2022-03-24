@@ -29,6 +29,7 @@ int main(void){
         pid = fork();
         if (pid == 0) {
             execvp(args[0], args);
+            return 1;
         }
         else {
             printf("Root Complete\n");
