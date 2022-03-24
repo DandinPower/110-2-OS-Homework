@@ -1,6 +1,6 @@
 #include <linux/init.h>
-#include <linux/kernel.h>
 #include <linux/module.h>
+#include <linux/kernel.h>
 #include <linux/list.h>
 #include <linux/types.h> 
 #include <linux/slab.h>
@@ -22,7 +22,7 @@ static LIST_HEAD(birthday_list);
 static int __init birthday_init(void)
 {
     printk(KERN_INFO "Loading Birthday Module and Create Birthday List\n");
-    
+
     struct birthday *elmo;
     elmo = kmalloc(sizeof(*elmo), GFP_KERNEL);
     elmo->year = 1998;
