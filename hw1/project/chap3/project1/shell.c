@@ -26,6 +26,13 @@ int main(void){
         if (strcmp(args[0],"exit")==0){
             break;
         }
+
+        int isWait = 1;
+        if(strcmp(args[i],"&")==0){
+            isWait = 0;
+            free(args[i]);
+            args[i] = NULL;
+        }
         pid_t pid;
         pid = fork();
         if(pid < 0) {
@@ -39,7 +46,12 @@ int main(void){
             }
         }
         else {
-            printf("ROOT COMPLETE\n");
+            if(isWait){
+                while(wait(NULL) != pid);
+            }
+            else{
+                printf("ROOT COMPLETE\n");
+            }
         }
     }
     return 0;
