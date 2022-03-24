@@ -25,9 +25,11 @@ int main(void){
         pid_t pid;
         pid = fork();
         if (pid == 0) {
+            /*
             for(int j=0;j<=i;j++){
                 printf("%s\n",args[j]);
-            }
+            }*/
+            execvp(char args[0], args);
         }
         else {
             wait(NULL);
