@@ -11,6 +11,7 @@ int main(void){
         char *args[MAX_LEN/2 + 1];
         char input[MAX_LEN];
         printf("osh>");
+        fflush(stdout);
         gets(input);
         char *p = strtok(input, " ");
         int i = 0;
