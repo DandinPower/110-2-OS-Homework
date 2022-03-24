@@ -27,14 +27,19 @@ int main(void){
         }
         pid_t pid;
         pid = fork();
-        if (pid == 0) {
-            execvp(args[0], args);
+        if(pid < 0) {
+            printf("FORK FAILED\n");
             return 1;
         }
-        else {
-            printf("Root Complete\n");
+        else if (pid == 0) {
+            if(execvp(args[0], args){
+                printf("WRONG COMMAND\n");
+                return 1;
+            }
         }
-
+        else {
+            printf("ROOT COMPLETE\n");
+        }
     }
     return 0;
 }
