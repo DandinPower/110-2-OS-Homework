@@ -1,11 +1,9 @@
-KVERSION := $(shell uname -r)
-KERNEL_DIR = /usr/src/linux-headers-$(KVERSION)/
+KERNEL_DIR = /usr/src/linux-headers-5.13.0-37-generic/
 
-MODULE_NAME = simple
-obj-m := $(MODULE_NAME).o
+obj-m := simple.o
 
 all:
-	make -C $(KERNEL_DIR) M=$(shell pwd)
+	make -C $(KERNEL_DIR) SUBDIRS=$(shell pwd)
 clean:
 	rm *.o *.ko *.mod.c	
 .PHONY:
