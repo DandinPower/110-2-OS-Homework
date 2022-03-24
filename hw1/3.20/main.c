@@ -9,8 +9,8 @@
 int main(int argc, char *argv[]){
     int fd[2];
     pid_t pid;
-    char readBuffer[50];
-    char writeBuffer[50];
+    char readBuffer[100];
+    char writeBuffer[100];
     int readCounter;
     pipe (fd);
     int sourceFile = open(argv[1],0);
