@@ -26,7 +26,7 @@ int main(int argc, char *argv[]){
     }
     else if (pid == 0) {
         close(fd[1]);
-        read( fdone[0], readBuffer, sizeof( readBuffer ) );
+        read( fd[0], readBuffer, sizeof( readBuffer ) );
         printf( "The recived string is : %s", readBuffer );
     }
     else {
