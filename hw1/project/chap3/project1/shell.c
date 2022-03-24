@@ -21,15 +21,16 @@ int main(void){
             p = strtok(NULL, " ");
             args[i] = p;
         }
-        args[i+1] = NULL;
         //args已經完成
         if (strcmp(args[0],"exit")==0){
             break;
         }
-
         int isWait = 1;
-        if(strcmp(args[i],"&")==0){
+        if (strlen(args[i-1])==1 && args[i-1][0] == '&'){
             isWait = 0;
+            args[i-1] = NULL;
+        }
+        else{
             args[i] = NULL;
         }
         pid_t pid;
@@ -47,10 +48,11 @@ int main(void){
         else {
             if(isWait){
                 while(wait(NULL) != pid);
+                printf("Child COMPLETE\n");
             }
             else{
                 printf("ROOT COMPLETE\n");
-            }
+            }  
         }
     }
     return 0;
