@@ -6,6 +6,8 @@ MODULE_NAME = simple
 obj-m := $(MODULE_NAME).o
 
 all:
-	make -C $(KERNEL_DIR) M=$(PWD) modules
+	make -C $(KERNEL_DIR) SUBDIRS=$(PWD)
 clean:
- 	make -C $(KERNEL_DIR) M=$(PWD) clean
+ 	rm *.o *.ko *.mod.c 
+.PHONY:
+	clean
