@@ -16,7 +16,7 @@ int main(int argc, char *argv[]){
     int sourceFile = open(argv[1],0);
     int destinationFile = open(argv[2],0666);
     if ( sourceFile == -1 || destinationFile == -1 ) {
-        printf("Failed");
+        printf("Open Failed\n");
         return 1;
     }
     pid = fork();
@@ -27,7 +27,7 @@ int main(int argc, char *argv[]){
     else if (pid == 0) {
         close(fd[1]);
         read( fd[0], readBuffer, sizeof( readBuffer ) );
-        printf( "The recived string is : %s", readBuffer );
+        write( destinationFile, readBuffer, strlen( readBuffer ) + 1 );
     }
     else {
         close(fd[0]);
@@ -35,7 +35,6 @@ int main(int argc, char *argv[]){
             write( fd[1], readBuffer, sizeof( readBuffer ) );
         }
         close(fd[1]);
-
     }
     return 0;
 }
