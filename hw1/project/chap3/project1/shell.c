@@ -30,7 +30,7 @@ int main(void){
             }
         }
         else {
-            if (args[i] != "&"){
+            if (strcmp(args[i], "&")){
                 wait(NULL);
                 printf("Child Complete\n");
             }
