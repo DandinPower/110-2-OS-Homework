@@ -22,6 +22,9 @@ int main(void){
         }
         args[i+1] = NULL;
         //args已經完成
+        if (strcmp(args[0],"exit")==0){
+            break;
+        }
         pid_t pid;
         pid = fork();
         if (pid == 0) {
