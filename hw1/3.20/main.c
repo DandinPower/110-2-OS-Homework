@@ -26,13 +26,12 @@ int main(int argc, char *argv[]){
     }
     else if (pid == 0) {
         close(fd[1]);
-        read( fd[0], readBuffer, sizeof( readBuffer ) );
-        write( destinationFile, readBuffer, strlen( readBuffer ) + 1 );
+        read( fd[0], readBuffer, sizeof( readBuffer ) ); 
+        write( destinationFile, readBuffer, strlen( readBuffer ) - 1 );
     }
     else {
         close(fd[0]);
         while( (readCounter = read( sourceFile, readBuffer, sizeof( readBuffer ) ) > 0 ) )  {
-            printf("readCounter:　%d\n",readCounter);
             write( fd[1], readBuffer, sizeof( readBuffer ) );
         }
         close(fd[1]);
