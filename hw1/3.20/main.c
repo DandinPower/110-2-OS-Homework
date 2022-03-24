@@ -32,6 +32,7 @@ int main(int argc, char *argv[]){
     else {
         close(fd[0]);
         while( (readCounter = read( sourceFile, readBuffer, sizeof( readBuffer ) ) > 0 ) )  {
+            printf("readCounter:　%d\n",readCounter);
             write( fd[1], readBuffer, sizeof( readBuffer ) );
         }
         close(fd[1]);
