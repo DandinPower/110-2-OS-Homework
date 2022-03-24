@@ -32,7 +32,7 @@ int main(void){
             return 1;
         }
         else if (pid == 0) {
-            if(execvp(args[0], args){
+            if(execvp(args[0], args)){
                 printf("WRONG COMMAND\n");
                 return 1;
             }
