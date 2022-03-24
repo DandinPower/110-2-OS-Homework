@@ -1,10 +1,11 @@
-KERNEL_DIR = /usr/src/linux-headers-5.13.0-37-generic/
+KERNEL_DIR = /lib/modules/${shell uname -r}
 
 obj-m := simple.o
 
 all:
-	make -C $(KERNEL_DIR) SUBDIRS=$(shell pwd)
+	make -C $(KERNEL_DIR)/build M=$(shell pwd) modules
 clean:
 	rm *.o *.ko *.mod.c	
+	make -C $(KERNEL_DIR)/build M=$(shell pwd) clean
 .PHONY:
 	clean
