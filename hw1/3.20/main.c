@@ -27,7 +27,7 @@ int main(int argc, char *argv[]){
     else if (pid == 0) {
         close(fd[1]);
         while( read( fd[0], buffer, sizeof( buffer ) ) > 0 )  {
-            write( destinationFile, buffer, strlen( buffer ) - 1 );
+            write( destinationFile, buffer, strlen( buffer ));
         }
         close(fd[0]);
         close(destinationFile);
