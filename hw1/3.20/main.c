@@ -6,12 +6,12 @@
 #include<stdlib.h>
 #include <unistd.h>
 
+#define BUFFER_SIZE 2
+
 int main(int argc, char *argv[]){
     int fd[2];
     pid_t pid;
-    char readBuffer[100];
-    char writeBuffer[100];
-    int readCounter;
+    char buffer[BUFFER_SIZE];
     pipe (fd);
     int sourceFile = open(argv[1],0);
     int destinationFile = open(argv[2],0666);
@@ -26,15 +26,20 @@ int main(int argc, char *argv[]){
     }
     else if (pid == 0) {
         close(fd[1]);
-        read( fd[0], readBuffer, sizeof( readBuffer ) ); 
-        write( destinationFile, readBuffer, strlen( readBuffer ) - 1 );
+        while( read( fd[0], buffer, sizeof( buffer ) ) > 0 )  {
+            write( destinationFile, buffer, strlen( buffer ) - 1 );
+        }
+        close(fd[0]);
+        close(destinationFile);
     }
     else {
         close(fd[0]);
-        while( (readCounter = read( sourceFile, readBuffer, sizeof( readBuffer ) ) > 0 ) )  {
-            write( fd[1], readBuffer, sizeof( readBuffer ) );
+        while( read( sourceFile, buffer, sizeof( buffer ) ) > 0 )  {
+            write( fd[1], buffer, sizeof( buffer ) );
         }
         close(fd[1]);
+        close(sourceFile);
+        wait(NULL);
     }
     return 0;
 }
