@@ -30,8 +30,10 @@ int main(void){
             }
         }
         else {
-            wait(NULL);
-            printf("Child Complete\n");
+            if (args[i] != "&"){
+                wait(NULL);
+                printf("Child Complete\n");
+            }
         }
 
     }
