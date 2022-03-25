@@ -21,7 +21,7 @@ int main(void){
             p = strtok(NULL, " ");
             args[i] = p;
         }
-        if (i ==0) return 1;
+        if (i ==0) continue;
         //args已經完成
         if (strcmp(args[0],"exit")==0){
             break;
