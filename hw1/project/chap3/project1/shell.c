@@ -17,7 +17,7 @@ void HistoryInitialize(void){
         historyWait[i] = 0;
     }
 }
-void AddHistory(void,char *args,int isWait){
+void AddHistory(char *args,int isWait){
     cmdCounter++;
     if (cmdCounter <=9){
         for(int i=0;i<(MAX_LEN/2 + 1);i++){
