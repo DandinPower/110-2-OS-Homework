@@ -107,6 +107,9 @@ int main(void){
                 printf("WRONG COMMAND\n");
                 return 1;
             }
+            else{
+                AddHistory(args,isWait);
+            }
         }
         else {
             if(isWait){
