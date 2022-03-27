@@ -1,4 +1,24 @@
-# HW1 - Program
+# HW1 Program
+
+## Team組員
+
+| 資工三 108590017 林銘政 | 課本範例查詢與環境架設 |
+| 資工三 108590043 李永祺 | 虛擬機測試操作 |
+| 資工三 108590045 廖永誠  | 程式碼邏輯撰寫 |
+
+## Environment
+
+- 使用Ubuntu20.04.1
+- 需有以下兩個套件
+    
+    ```bash
+    sudo apt-get install make
+    sudo apt-get install flex
+    ```
+    
+- Github地址
+    
+    [110-2-OS-Homework/hw1 at main · DandinPower/110-2-OS-Homework](https://github.com/DandinPower/110-2-OS-Homework/tree/main/hw1)
 
 ## Problem
 
