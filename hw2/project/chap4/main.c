@@ -13,6 +13,7 @@
 
 int *listA;
 int *listB;
+int *listFinal;
 
 sem_t mutex;
 
@@ -66,7 +67,7 @@ void *runnerAB(void *param){
     if (index[0] == 0) sort(listA,index[1]);
     else sort(listB,index[1]);
     sleep(1);
-    printf("finish\n");
+    printf("finish sort\n");
     sem_post(&mutex);
     pthread_exit(0);
 }
@@ -74,12 +75,8 @@ void *runnerAB(void *param){
 void *runnerC(void *param){
     int *length = ((int *)param);
     sem_wait(&mutex);
-    printf("first List: ");
-    ShowList(listA,length[0]);
-    printf("second List: ");
-    ShowList(listB,length[1]);
-    int *newList = merge(listA,listB,length[0],length[1]);
-    ShowList(newList,length[0]+length[1]);
+    listFinal = merge(listA,listB,length[0],length[1]);
+    printf("finish merge\n");
     sem_post(&mutex);
     pthread_exit(0);
 }
@@ -116,6 +113,7 @@ int main(int argc,char* argv[]){
     pthread_join(tid_1,NULL);
     pthread_join(tid_2,NULL);
     pthread_join(tid_3,NULL);
+    ShowList(listFinal,listLength);
     sem_destroy(&mutex);
     return 0;
 }
