@@ -149,7 +149,7 @@ void RandomRequest(int index, int request[RESOURCES_NUMS]){
 }
 
 //根據該customer的allocation隨機產生release
-void RandomRelease()(int index, int release[RESOURCES_NUMS]){
+void RandomRelease(int index, int release[RESOURCES_NUMS]){
     for (int j=0; j<RESOURCES_NUMS; j++) {
         release[j] = rand()%(allocation[index][j]+1);
     }
