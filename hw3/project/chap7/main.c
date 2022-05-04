@@ -116,7 +116,6 @@ int RequestResources(int customerIndex, int requestList[RESOURCES_NUMS]){
             need[customerIndex][i] += requestList[i];
         }
         if (error) printf("Invalid Request because request more than need\n");
-        if (state == -1) printf("Request is Reject because can't find sequence,so it's in unsafe state\n");
     }
     return state;
 }
@@ -155,6 +154,15 @@ void RandomRelease(int index, int release[RESOURCES_NUMS]){
     }
 }
 
+//檢查是否還需要繼續跑
+void CheckIsFinish(int index){
+    int isFinish = 1;
+    for (int i=0; i<RESOURCES_NUMS; i++){
+        if (need[index][i] != 0) isFinish = 0;
+    }
+    return isFinish;
+}
+
 //customer thread
 void *CustomerRunner(void *param){
     int* index = (int*)param;
@@ -162,12 +170,25 @@ void *CustomerRunner(void *param){
     int releaseRandomList[RESOURCES_NUMS];
     RandomRequest(*index, requestRandomList);
     RandomRelease(*index, releaseRandomList);
+    pthread_mutex_lock(&mutex);
     printf("[%d]customer is request: ",*index);
     for (int j=0; j<RESOURCES_NUMS; j++) printf("%d ",requestRandomList[j]);
     printf("\n");
+    int state = RequestResources(*index,requestRandomList);
+    if (state == -1) printf("Request is Reject and wait for resource because can't find valid sequence,so it's in unsafe state.\n");
+    else printf("Request is accept!\n");
+    if (CheckIsFinish(*index)){
+        printf("[%d]customer is finish!\n",*index);
+        ShowData();
+        pthread_mutex_unlock(&mutex);
+        break;
+    }
     printf("[%d]customer is release: ",*index);
     for (int j=0; j<RESOURCES_NUMS; j++) printf("%d ",releaseRandomList[j]);
     printf("\n");
+    ReleaseResources(*index,releaseRandomList);
+    ShowData();
+    pthread_mutex_unlock(&mutex);
     pthread_exit(0);
 }
 
