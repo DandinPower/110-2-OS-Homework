@@ -39,7 +39,6 @@ void *SouthBound(void *param){
     printf("The bridge is empty!\n");
     pthread_mutex_unlock(&southAccess);
     sem_post(&south);
-    int* index = (int*)param;
     pthread_exit(0);
 }
 
@@ -60,7 +59,6 @@ void *NorthBound(void *param){
     printf("The bridge is empty!\n");
     pthread_mutex_unlock(&northAccess);
     sem_post(&north);
-    int* index = (int*)param;
     pthread_exit(0);
 }
 
