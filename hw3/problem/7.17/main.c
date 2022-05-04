@@ -35,8 +35,10 @@ void *SouthBound(void *param){
     printf("[%d]'s farmers from south leaving the bridge...\n",*index);
     pthread_mutex_lock(&southAccess);
     southCounter--;
-    if (southCounter == 0) sem_post(&north);
-    printf("The bridge is empty!\n");
+    if (southCounter == 0) {
+        sem_post(&north);
+        printf("The bridge is empty!\n");
+    }
     pthread_mutex_unlock(&southAccess);
     sem_post(&south);
     pthread_exit(0);
@@ -55,8 +57,10 @@ void *NorthBound(void *param){
     printf("[%d]'s farmers from north leaving the bridge...\n",*index);
     pthread_mutex_lock(&northAccess);
     northCounter--;
-    if (northCounter == 0) sem_post(&south);
-    printf("The bridge is empty!\n");
+    if (northCounter == 0) {
+        sem_post(&south);
+        printf("The bridge is empty!\n");
+    }
     pthread_mutex_unlock(&northAccess);
     sem_post(&north);
     pthread_exit(0);
