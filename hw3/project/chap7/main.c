@@ -168,27 +168,29 @@ void *CustomerRunner(void *param){
     int* index = (int*)param;
     int requestRandomList[RESOURCES_NUMS];
     int releaseRandomList[RESOURCES_NUMS];
-    RandomRequest(*index, requestRandomList);
-    RandomRelease(*index, releaseRandomList);
-    pthread_mutex_lock(&mutex);
-    printf("[%d]customer is request: ",*index);
-    for (int j=0; j<RESOURCES_NUMS; j++) printf("%d ",requestRandomList[j]);
-    printf("\n");
-    int state = RequestResources(*index,requestRandomList);
-    if (state == -1) printf("Request is Reject and wait for resource because can't find valid sequence,so it's in unsafe state.\n");
-    else printf("Request is accept!\n");
-    if (CheckIsFinish(*index)){
-        printf("[%d]customer is finish!\n",*index);
+    while(1){
+        pthread_mutex_lock(&mutex);
+        RandomRequest(*index, requestRandomList);
+        RandomRelease(*index, releaseRandomList);
+        printf("[%d]customer is request: ",*index);
+        for (int j=0; j<RESOURCES_NUMS; j++) printf("%d ",requestRandomList[j]);
+        printf("\n");
+        int state = RequestResources(*index,requestRandomList);
+        if (state == -1) printf("Request is Reject and wait for resource because can't find valid sequence,so it's in unsafe state.\n");
+        else printf("Request is accept!\n");
+        if (CheckIsFinish(*index)){
+            printf("[%d]customer is finish!\n",*index);
+            ShowData();
+            pthread_mutex_unlock(&mutex);
+            break;
+        }
+        printf("[%d]customer is release: ",*index);
+        for (int j=0; j<RESOURCES_NUMS; j++) printf("%d ",releaseRandomList[j]);
+        printf("\n");
+        ReleaseResources(*index,releaseRandomList);
         ShowData();
         pthread_mutex_unlock(&mutex);
-        break;
     }
-    printf("[%d]customer is release: ",*index);
-    for (int j=0; j<RESOURCES_NUMS; j++) printf("%d ",releaseRandomList[j]);
-    printf("\n");
-    ReleaseResources(*index,releaseRandomList);
-    ShowData();
-    pthread_mutex_unlock(&mutex);
     pthread_exit(0);
 }
 
