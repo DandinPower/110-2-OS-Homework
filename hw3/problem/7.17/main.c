@@ -24,6 +24,7 @@ int GetRandomTime(){
 
 void *SouthBound(void *param){
     int* index = (int*)param;
+    sleep(GetRandomTime());
     printf("[%d]'s farmers from south want to across the bridge...\n",*index);
     sem_wait(&south);
     sem_post(&south);
@@ -47,6 +48,7 @@ void *SouthBound(void *param){
 
 void *NorthBound(void *param){
     int* index = (int*)param;
+    sleep(GetRandomTime());
     printf("[%d]'s farmers from north want to across the bridge...\n",*index);
     sem_wait(&north);
     sem_post(&north);
