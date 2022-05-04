@@ -162,10 +162,10 @@ void *CustomerRunner(void *param){
     int releaseRandomList[RESOURCES_NUMS];
     RandomRequest(*index, requestRandomList);
     RandomRelease(*index, releaseRandomList);
-    printf("[%d]customer is request: ");
+    printf("[%d]customer is request: ",*index);
     for (int j=0; j<RESOURCES_NUMS; j++) printf("%d ",requestRandomList[j]);
     printf("\n");
-    printf("[%d]customer is release: ");
+    printf("[%d]customer is release: ",*index);
     for (int j=0; j<RESOURCES_NUMS; j++) printf("%d ",releaseRandomList[j]);
     printf("\n");
     pthread_exit(0);
