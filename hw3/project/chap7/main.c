@@ -155,7 +155,7 @@ void RandomRelease(int index, int release[RESOURCES_NUMS]){
 }
 
 //檢查是否還需要繼續跑
-void CheckIsFinish(int index){
+int CheckIsFinish(int index){
     int isFinish = 1;
     for (int i=0; i<RESOURCES_NUMS; i++){
         if (need[index][i] != 0) isFinish = 0;
