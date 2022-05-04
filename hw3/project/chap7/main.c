@@ -140,6 +140,15 @@ void ReleaseResources(int customerIndex, int releaseList[RESOURCES_NUMS]){
     }
 }
 
+//customer release all
+void ReleaseAll(int customerIndex){
+    for (int i=0; i<RESOURCES_NUMS; i++) {
+        available[i] += allocation[customerIndex][i];
+        allocation[customerIndex][i] = 0;
+        //need[customerIndex][i] = maximum[customerIndex][i];
+    }
+}
+
 //根據該customer的need隨機產生request
 void RandomRequest(int index, int request[RESOURCES_NUMS]){
     for (int j=0; j<RESOURCES_NUMS; j++) {
@@ -178,15 +187,18 @@ void *CustomerRunner(void *param){
         if (state == -1) printf("Request is Reject and wait for resource because can't find valid sequence,so it's in unsafe state.\n");
         else {
             printf("Request is accept!\n");
-            RandomRelease(*index, releaseRandomList);
-            printf("[%d]customer is release: ",*index);
-            for (int j=0; j<RESOURCES_NUMS; j++) printf("%d ",releaseRandomList[j]);
-            printf("\n");
-            ReleaseResources(*index,releaseRandomList);
             ShowData();
         }
+        /*
+        RandomRelease(*index, releaseRandomList);
+        printf("[%d]customer is release: ",*index);
+        for (int j=0; j<RESOURCES_NUMS; j++) printf("%d ",releaseRandomList[j]);
+        printf("\n");
+        ReleaseResources(*index,releaseRandomList);*/
         if (CheckIsFinish(*index)){
             printf("[%d]customer is finish!\n",*index);
+            printf("[%d]customer release all!\n",*index);
+            ReleaseAll(*index);
             ShowData();
             pthread_mutex_unlock(&mutex);
             break;
