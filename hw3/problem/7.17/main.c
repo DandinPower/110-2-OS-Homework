@@ -34,7 +34,7 @@ void *SouthBound(void *param){
     sleep(GetRandomTime());
     printf("[%d]'s farmers from south leaving the bridge...\n",*index);
     pthread_mutex_lock(&southAccess);
-    southCounter++;
+    southCounter--;
     if (southCounter == 0) sem_post(&north);
     printf("The bridge is empty!\n");
     pthread_mutex_unlock(&southAccess);
@@ -54,7 +54,7 @@ void *NorthBound(void *param){
     sleep(GetRandomTime());
     printf("[%d]'s farmers from north leaving the bridge...\n",*index);
     pthread_mutex_lock(&northAccess);
-    northCounter++;
+    northCounter--;
     if (northCounter == 0) sem_post(&south);
     printf("The bridge is empty!\n");
     pthread_mutex_unlock(&northAccess);
