@@ -12,7 +12,7 @@ int main(int argc, char *argv[]){
     pageNumber = virtualAddress / PAGE_SIZE;
     offset = virtualAddress % PAGE_SIZE;
     printf("The address %u contains:\n", virtualAddress);
-    printf("page number = %u", pageNumber);
-    printf("offset = %u", offset);
+    printf("page number = %u\n", pageNumber);
+    printf("offset = %u\n", offset);
     return 0;
 }
