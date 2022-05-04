@@ -49,7 +49,7 @@ void InitializeAvailable(char *argv[]){
 void InitializeMaximum(){
     for (int i=0; i<CUSTOMERS_NUMS; i++){
         for (int j=0; j<RESOURCES_NUMS; j++) {
-            maximum[i][j] = rand()%(total[i]+1);
+            maximum[i][j] = rand()%(available[j]+1);
             need[i][j] = maximum[i][j];
         }
     }
