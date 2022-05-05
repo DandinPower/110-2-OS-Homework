@@ -34,12 +34,12 @@ void ShowState(int *state){
 
 //檢查該page有無在frames裡
 int CheckIsInFrames(int *state, int pageIndex){
-    int answer = 0;
-    for (int i=0; i<frameNums; i++) if(state[i]==pageIndex) answer = 1;
+    int answer = -1;
+    for (int i=0; i<frameNums; i++) if(state[i]==pageIndex) answer = i;
     return answer;
 }
 
-//將pageIndex加進state(FIFO)
+//將pageIndex加進state(FIFO,LRU)
 void AddFIFOState(int *state, int pageIndex){
     if(state[0]!=-1) for (int i=frameNums-1; i>0; i--) state[i] = state[i-1];
     state[0] = pageIndex;
@@ -52,7 +52,7 @@ void FIFO(){
     state = (int *)malloc(sizeof(int) * frameNums);
     for (int i=0; i<frameNums; i++) state[i] = -1;
     for (int i=0; i<PAGE_NUMS; i++){
-        if(CheckIsInFrames(state, pageSequence[i])==0){
+        if(CheckIsInFrames(state, pageSequence[i])==-1){
             faults++;
             AddFIFOState(state, pageSequence[i]);
         }
@@ -60,9 +60,35 @@ void FIFO(){
     printf("FIFO page faults: %d\n",faults);
 }
 
+//實現LRU當重複遇到時的處理
+void UpdateLRUState(int *state, int pageIndex, int index){
+    for (int i=index; i>0; i--) state[i] = state[i-1];
+    state[0] = pageIndex;
+}
+
+//實現LRU algorithm
+void LRU(){
+    int faults = 0;
+    int *state;
+    state = (int *)malloc(sizeof(int) * frameNums);
+    for (int i=0; i<frameNums; i++) state[i] = -1;
+    for (int i=0; i<PAGE_NUMS; i++){
+        int index = CheckIsInFrames(state, pageSequence[i]);
+        if(index == -1){
+            faults++;
+            AddFIFOState(state, pageSequence[i]);
+        }
+        else{
+            UpdateLRUState(state, pageSequence[i], index);
+        }
+    }
+    printf("LRU page faults: %d\n",faults);
+}
+
 int main(int argc,char* argv[]){
     srand(time(NULL));
     frameNums = atoi(argv[1]);
     FIFO();
+    LRU();
     return 0;
 }
