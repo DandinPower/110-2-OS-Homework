@@ -9,6 +9,9 @@
 int pageSequence[PAGE_NUMS] = {7, 2, 3, 1, 2, 5, 3, 4, 6, 7, 7, 1, 0, 5, 4, 6, 2, 3, 0, 1};
 int frameNums = 3;
 
+//int pageSequence[PAGE_NUMS] = {1, 2, 3, 4, 5, 3, 4, 1, 6, 7, 8, 7, 8, 9, 7, 8, 9, 5, 4, 5, 4, 2};
+//int frameNums = 4;
+
 //取得一個隨機0~9的數
 int GetRandomNumber(){
     return (rand()%10);
