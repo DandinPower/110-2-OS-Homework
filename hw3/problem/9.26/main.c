@@ -61,6 +61,7 @@ void FIFO(){
             faults++;
             AddFIFOState(state, pageSequence[i]);
         }
+        ShowState(state);
     }
     printf("FIFO page faults: %d\n",faults);
 }
@@ -86,6 +87,7 @@ void LRU(){
         else{
             UpdateLRUState(state, pageSequence[i], index);
         }
+        ShowState(state);
     }
     printf("LRU page faults: %d\n",faults);
 }
@@ -152,7 +154,7 @@ void OPA(){
             faults++;
             AddOPAState(state, pageSequence[i], i);
         }
-        //ShowState(state);
+        ShowState(state);
     }
     printf("OPA page faults: %d\n",faults);
 }
