@@ -23,6 +23,8 @@ int tlb[TLB_NUMS][2];
 int tlbCounter = 0;
 int pageTable[PAGE_ENTRIES];
 
+char str[80];
+
 char* storeData; 
 int storeFd;
 
@@ -108,7 +110,6 @@ void GetPhysicalAndFrames(int logicalAddress){
 	}
 	int physicalAddress = frames + offset;
 	int values = memory[physicalAddress];
-	char str[80];
 	sprintf(str,"virtual address: %d, physical address: %d, values: %d\n",logicalAddress,physicalAddress,values);
 	fwrite(str,1,strlen(str),outputFile);
 }
@@ -126,10 +127,19 @@ int main(int argc, char*argv[]){
 		int address = atoi(contents);
 		GetPhysicalAndFrames(address);
 	}
+	double tlbHitRate = tlbHits / pageCounter;
+	double faultsRate = pageFaults / pageCounter;
+	sprintf(str,"Tlb Hit: %d\n",tlbHits);
+	fwrite(str,1,strlen(str),outputFile);
+	sprintf(str,"Tlb Hit rate: %f\n",tlbHitRate);
+	fwrite(str,1,strlen(str),outputFile);
+	sprintf(str,"Page Faults: %d\n",pageFaults);
+	fwrite(str,1,strlen(str),outputFile);
+	sprintf(str,"Page Faults rate: %f\n",faultsRate);
+	fwrite(str,1,strlen(str),outputFile);
 	fclose(addressFile);
 	fclose(outputFile);
 	free(contents);
-	printf("Tlb Hit: %d\n",tlbHits);
-	printf("Page Faults: %d\n",pageFaults);
+	
 	return 0;
 }
