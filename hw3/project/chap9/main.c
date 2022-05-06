@@ -48,7 +48,7 @@ void InitializeTable(){
 //初始化memory
 void InitializeMemory(){
 	for (int i=0; i<MEMORY_SIZE; i++){
-		memory[i] = -1;
+		memory[i] = 0;
 	}
 }
 
@@ -113,7 +113,7 @@ void GetPhysicalAndFrames(int logicalAddress){
 	}
 	int physicalAddress = frames + offset;
 	int values = memory[physicalAddress];
-	printf("virtual address: %d, physical address: %d, values: %d\n",logicalAddress,physicalAddress,values);
+	printf("virtual address: %d, physical address: %d, values: %s\n",logicalAddress,physicalAddress,values);
 }
 
 //檢查是否在PageTable
