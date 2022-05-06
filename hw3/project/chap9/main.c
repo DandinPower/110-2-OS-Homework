@@ -118,13 +118,12 @@ int main(int argc, char*argv[]){
 	FILE *addressFile = fopen(argv[2],"r");
 	char *contents = NULL;
 	size_t len = 0;
-	getline(&contents,&len,addressFile);
-	printf("%s",contents);
+	while(getline(&contents,&len,addressFile)!= -1){
+		int address = atoi(contents);
+		GetPhysicalAndFrames(address);
+	}
 	fclose(addressFile);
 	free(contents);
-	GetPhysicalAndFrames(16916);
-	GetPhysicalAndFrames(62493);
-	GetPhysicalAndFrames(30198);
 	printf("Tlb Hit: %d\n",tlbHits);
 	printf("Page Faults: %d\n",pageFaults);
 	return 0;
