@@ -29,6 +29,8 @@ int storeFd;
 int memoryIndex = 0;
 char memory[MEMORY_SIZE];
 
+FILE *addressFile;
+FILE *outputFile;
 
 //初始化TLB cache
 void InitializeTlb(){
@@ -107,6 +109,7 @@ void GetPhysicalAndFrames(int logicalAddress){
 	int physicalAddress = frames + offset;
 	int values = memory[physicalAddress];
 	printf("virtual address: %d, physical address: %d, values: %d\n",logicalAddress,physicalAddress,values);
+	fwrite(str,1,strlen(str),outputFile);
 }
 
 //檢查是否在PageTable
@@ -114,7 +117,8 @@ int main(int argc, char*argv[]){
 	InitializeTlb();
 	InitializeTable();
 	InitializeStore(argv[1]);
-	FILE *addressFile = fopen(argv[2],"r");
+	addressFile = fopen(argv[2],"r");
+	outputFile = fopen(argv[3],"w+");
 	char *contents = NULL;
 	size_t len = 0;
 	while(getline(&contents,&len,addressFile)!= -1){
@@ -122,6 +126,7 @@ int main(int argc, char*argv[]){
 		GetPhysicalAndFrames(address);
 	}
 	fclose(addressFile);
+	fclose(outputFile);
 	free(contents);
 	printf("Tlb Hit: %d\n",tlbHits);
 	printf("Page Faults: %d\n",pageFaults);
