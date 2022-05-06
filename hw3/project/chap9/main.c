@@ -93,7 +93,6 @@ void GetPhysicalAndFrames(int logicalAddress){
 		if (frames == -1){
 			pageFaults++;
 			int pageAddress = (pageNumber*PAGE_SIZE);
-			printf("page address: %d\n",pageAddress);
 			memcpy(memory + memoryIndex,storeData + pageAddress, PAGE_SIZE);
 			frames = memoryIndex;
 			pageTable[pageNumber] = frames;
