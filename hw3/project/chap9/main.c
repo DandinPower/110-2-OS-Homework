@@ -61,6 +61,7 @@ int FindPageInTlb(int pageIndex){
 int GetPageNumber(int logicalAddress){
 	return logicalAddress >> 8;
 }
+
 //根據logicalAddress取得offset
 int GetOffset(int logicalAddress){
 	int mask = 255;
@@ -114,6 +115,13 @@ int main(int argc, char*argv[]){
 	InitializeTlb();
 	InitializeTable();
 	InitializeStore(argv[1]);
+	FILE *addressFile = fopen(argv[2],"r");
+	char *contents = NULL;
+	size_t len = 0;
+	getline(&contents,&len,addressFile);
+	printf("%s",contents);
+	fclose(addressFile);
+	free(contents);
 	GetPhysicalAndFrames(16916);
 	GetPhysicalAndFrames(62493);
 	GetPhysicalAndFrames(30198);
