@@ -110,7 +110,7 @@ int main(int argc, char*argv[]){
 	int physical = GetPhysicalAddress(logical);
 	int values = memory[physical];
 	printf("virtual address: %d, physical address: %d, values: %d\n",logical,physical,values);
-	logical = 37213;
+	logical = 58815;
 	physical = GetPhysicalAddress(logical);
 	values = memory[physical];
 	printf("virtual address: %d, physical address: %d, values: %d\n",logical,physical,values);
