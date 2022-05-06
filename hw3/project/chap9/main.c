@@ -45,6 +45,12 @@ void InitializeTable(){
 	}
 }
 
+//初始化storeData
+void InitializeStore(char *storeFile){
+	storeFd = open(storeFile, O_RDONLY);
+	storeData = mmap(0, MEMORY_SIZE, PROT_READ, MAP_SHARED, storeFd, 0);
+}
+
 //檢查是否在TLB -> 有的話回傳index,沒有的話回傳-1
 int FindPageInTlb(int pageIndex){
 	for (int i=0; i<TLB_NUMS; i++) if (tlb[i][0] == pageIndex) return i;
@@ -100,23 +106,21 @@ int GetPhysicalAddress(int logicalAddress){
 	return physicalAddress;
 }
 
+void GetValue(int logicalAddress){
+	int physical = GetPhysicalAddress(logicalAddress);
+	int values = memory[physical];
+	printf("virtual address: %d, physical address: %d, values: %d\n",logical,physical,values);
+}
+
 //檢查是否在PageTable
 int main(int argc, char*argv[]){
 	InitializeTlb();
 	InitializeTable();
-	storeFd = open(argv[1], O_RDONLY);
-	storeData = mmap(0, MEMORY_SIZE, PROT_READ, MAP_SHARED, storeFd, 0);
-	int logical = 8913;
-	int physical = GetPhysicalAddress(logical);
-	int values = memory[physical];
-	printf("virtual address: %d, physical address: %d, values: %d\n",logical,physical,values);
-	logical = 58815;
-	physical = GetPhysicalAddress(logical);
-	values = memory[physical];
-	printf("virtual address: %d, physical address: %d, values: %d\n",logical,physical,values);
+	InitializeStore(argv[1]);
+	GetValue(16916);
+	GetValue(62493);
+	GetValue(30198);
 	printf("Tlb Hit: %d\n",tlbHits);
-	//printf("Tlb Hit Rate: %d percent\n",(tlbHits/pageCounter));
 	printf("Page Faults: %d\n",pageFaults);
-	//printf("Page Faults Rate: %d percent\n",(pageFaults/pageCounter));
 	return 0;
 }
