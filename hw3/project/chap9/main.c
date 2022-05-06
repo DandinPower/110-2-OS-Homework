@@ -91,7 +91,7 @@ int GetPhysicalAddress(int logicalAddress){
 		frames = pageTable[pageNumber];
 		if (frames == -1){
 			pageFaults++;
-			memcpy(memory + memoryIndex,storeData + pageNumber, PAGE_SIZE);
+			memcpy(memory + memoryIndex,storeData + (pageNumber*PAGE_SIZE), PAGE_SIZE);
 			frames = memoryIndex;
 			pageTable[pageNumber] = frames;
 			memoryIndex += FRAME_SIZE; 
