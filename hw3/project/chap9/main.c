@@ -27,7 +27,7 @@ char* storeData;
 int storeFd;
 
 int memoryIndex = 0;
-int memory[MEMORY_SIZE];
+char memory[MEMORY_SIZE];
 
 
 //初始化TLB cache
@@ -42,13 +42,6 @@ void InitializeTlb(){
 void InitializeTable(){
 	for (int i=0; i<PAGE_ENTRIES; i++){
 		pageTable[i] = -1;
-	}
-}
-
-//初始化memory
-void InitializeMemory(){
-	for (int i=0; i<MEMORY_SIZE; i++){
-		memory[i] = 0;
 	}
 }
 
@@ -113,14 +106,13 @@ void GetPhysicalAndFrames(int logicalAddress){
 	}
 	int physicalAddress = frames + offset;
 	int values = memory[physicalAddress];
-	printf("virtual address: %d, physical address: %d, values: %s\n",logicalAddress,physicalAddress,values);
+	printf("virtual address: %d, physical address: %d, values: %d\n",logicalAddress,physicalAddress,values);
 }
 
 //檢查是否在PageTable
 int main(int argc, char*argv[]){
 	InitializeTlb();
 	InitializeTable();
-	InitializeMemory();
 	InitializeStore(argv[1]);
 	GetPhysicalAndFrames(16916);
 	GetPhysicalAndFrames(62493);
