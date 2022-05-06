@@ -109,7 +109,7 @@ int GetPhysicalAddress(int logicalAddress){
 void GetValue(int logicalAddress){
 	int physical = GetPhysicalAddress(logicalAddress);
 	int values = memory[physical];
-	printf("virtual address: %d, physical address: %d, values: %d\n",logical,physical,values);
+	printf("virtual address: %d, physical address: %d, values: %d\n",logicalAddress,physical,values);
 }
 
 //檢查是否在PageTable
