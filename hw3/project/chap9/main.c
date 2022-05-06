@@ -45,6 +45,13 @@ void InitializeTable(){
 	}
 }
 
+//初始化memory
+void InitializeMemory(){
+	for (int i=0; i<MEMORY_SIZE; i++){
+		memory[i] = -1;
+	}
+}
+
 //初始化storeData
 void InitializeStore(char *storeFile){
 	storeFd = open(storeFile, O_RDONLY);
@@ -102,7 +109,7 @@ void GetPhysicalAndFrames(int logicalAddress){
 				printf("Memory is full!\n");
 			}
 		}
-		UpdateTlb(pageNumber, memoryIndex);
+		UpdateTlb(pageNumber, frames);
 	}
 	int physicalAddress = frames + offset;
 	int values = memory[physicalAddress];
@@ -113,6 +120,7 @@ void GetPhysicalAndFrames(int logicalAddress){
 int main(int argc, char*argv[]){
 	InitializeTlb();
 	InitializeTable();
+	InitializeMemory();
 	InitializeStore(argv[1]);
 	GetPhysicalAndFrames(16916);
 	GetPhysicalAndFrames(62493);
