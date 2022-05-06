@@ -1,6 +1,13 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include <math.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <errno.h>
 
 #define TLB_NUMS 16
 #define PAGE_ENTRIES 256
@@ -16,23 +23,12 @@ int tlb[TLB_NUMS][2];
 int tlbCounter = 0;
 int pageTable[PAGE_ENTRIES];
 
+char* storeData; 
+int storeFd;
+
 int memoryIndex = 0;
 int memory[MEMORY_SIZE];
 
-//DISK DATA
-int diskTable[PAGE_ENTRIES]; 
-
-//初始化STORE DATA
-void InitializeDisk(){
-	for (int i=0; i<PAGE_ENTRIES; i++){
-		diskTable[i] = i;
-	}
-}
-
-//回傳store data
-int ReadDataFromDisk(int pageNumber){
-	return diskTable[pageNumber];
-}
 
 //初始化TLB cache
 void InitializeTlb(){
@@ -89,7 +85,7 @@ int GetPhysicalAddress(int logicalAddress){
 		frames = pageTable[pageNumber];
 		if (frames == -1){
 			pageFaults++;
-			int data = ReadDataFromDisk(pageNumber);
+			memcpy(memory + memoryIndex,storeData + pageNumber, PAGE_SIZE);
 			frames = memoryIndex;
 			pageTable[pageNumber] = frames;
 			memoryIndex += FRAME_SIZE; 
@@ -108,14 +104,16 @@ int GetPhysicalAddress(int logicalAddress){
 int main(int argc, char*argv[]){
 	InitializeTlb();
 	InitializeTable();
-	InitializeDisk();
+	storeFd = open(argv[1], O_RDONLY);
+	storeData = mmap(0, MEMORY_SIZE, PROT_READ, MAP_SHARED, store_fd, 0);
 	int logical = 8913;
 	int physical = GetPhysicalAddress(logical);
 	int values = memory[physical];
-	printf("virtual address: %d, physical address: %d\n",logical,physical);
+	printf("virtual address: %d, physical address: %d, values: %d\n",logical,physical,values);
 	logical = 37213;
 	physical = GetPhysicalAddress(logical);
-	printf("virtual address: %d, physical address: %d\n",logical,physical);
+	values = memory[physical];
+	printf("virtual address: %d, physical address: %d, values: %d\n",logical,physical,values);
 	printf("Tlb Hit: %d\n",tlbHits);
 	//printf("Tlb Hit Rate: %d percent\n",(tlbHits/pageCounter));
 	printf("Page Faults: %d\n",pageFaults);
