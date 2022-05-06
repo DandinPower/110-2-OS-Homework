@@ -105,7 +105,7 @@ int main(int argc, char*argv[]){
 	InitializeTlb();
 	InitializeTable();
 	storeFd = open(argv[1], O_RDONLY);
-	storeData = mmap(0, MEMORY_SIZE, PROT_READ, MAP_SHARED, store_fd, 0);
+	storeData = mmap(0, MEMORY_SIZE, PROT_READ, MAP_SHARED, storeFd, 0);
 	int logical = 8913;
 	int physical = GetPhysicalAddress(logical);
 	int values = memory[physical];
