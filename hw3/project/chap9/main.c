@@ -127,8 +127,10 @@ int main(int argc, char*argv[]){
 		int address = atoi(contents);
 		GetPhysicalAndFrames(address);
 	}
-	double tlbHitRate = tlbHits / pageCounter;
-	double faultsRate = pageFaults / pageCounter;
+	double tlbHitRate =(double)tlbHits / pageCounter;
+	double faultsRate =(double)pageFaults / pageCounter;
+	sprintf(str,"input page numbers: %d\n",pageCounter);
+	fwrite(str,1,strlen(str),outputFile);
 	sprintf(str,"Tlb Hit: %d\n",tlbHits);
 	fwrite(str,1,strlen(str),outputFile);
 	sprintf(str,"Tlb Hit rate: %f\n",tlbHitRate);
