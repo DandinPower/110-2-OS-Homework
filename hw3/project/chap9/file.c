@@ -26,7 +26,7 @@ FILE* in_ptr; // Address file pointer.
 FILE* out_ptr; // Output file pointer.
 char memory[MEM_SIZE]; // Physical memory. Each char is 1 byte.
 int main(int argc, char*argv[]){
-    store_fd = open(store_file, O_RDONLY);
+    store_fd = open("BACKING_STORE.bin", O_RDONLY);
     store_data = mmap(0, MEM_SIZE, PROT_READ, MAP_SHARED, store_fd, 0);
     int page_address = 256;
     memcpy(memory + mem_index, store_data + page_address, PAGE_SIZE);
