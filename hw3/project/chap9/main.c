@@ -1,13 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-#include <math.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include <errno.h>
 
 #define TLB_NUMS 16
 #define PAGE_ENTRIES 256
@@ -22,10 +15,12 @@ int pageCounter = 0;
 int tlb[TLB_NUMS][2];
 int tlbCounter = 0;
 int pageTable[PAGE_ENTRIES];
+
+int memoryIndex = 0;
 int memory[MEMORY_SIZE];
 
 //DISK DATA
-int diskTable[PAGE_ENTRIES];
+int diskTable[PAGE_ENTRIES]; 
 
 //初始化STORE DATA
 void InitializeDisk(){
@@ -84,8 +79,6 @@ int GetPhysicalAddress(int logicalAddress){
 	//先將logicalAddress轉換成pagenumber,offset
 	int pageNumber = GetPageNumber(logicalAddress);
 	int offset = GetOffset(logicalAddress);
-	printf("%d\n",pageNumber);
-	printf("%d\n",offset);
 	int frames;
 	//先檢查是否在TLB
 	frames = FindPageInTlb(pageNumber);
@@ -96,12 +89,18 @@ int GetPhysicalAddress(int logicalAddress){
 		frames = pageTable[pageNumber];
 		if (frames == -1){
 			pageFaults++;
-			frames = ReadDataFromDisk(pageNumber);
-			pageTable[pageNumber] = frames; 
+			int data = ReadDataFromDisk(pageNumber);
+			frames = memoryIndex;
+			pageTable[pageNumber] = frames;
+			memoryIndex += FRAME_SIZE; 
+			if (memoryIndex >= MEMORY_SIZE){
+				memoryIndex = -1;
+				printf("Memory is full!\n");
+			}
 		}
-		UpdateTlb(pageNumber, frames);
+		UpdateTlb(pageNumber, memoryIndex);
 	}
-	int physicalAddress = frames * PAGE_SIZE + offset;
+	int physicalAddress = frames + offset;
 	return physicalAddress;
 }
 
@@ -112,6 +111,14 @@ int main(int argc, char*argv[]){
 	InitializeDisk();
 	int logical = 8913;
 	int physical = GetPhysicalAddress(logical);
-	printf("virtual address: %d, physical address: %d\n",8913,physical);
+	int values = memory[physical];
+	printf("virtual address: %d, physical address: %d\n",logical,physical);
+	logical = 37213;
+	physical = GetPhysicalAddress(logical);
+	printf("virtual address: %d, physical address: %d\n",logical,physical);
+	printf("Tlb Hit: %d\n",tlbHits);
+	//printf("Tlb Hit Rate: %d percent\n",(tlbHits/pageCounter));
+	printf("Page Faults: %d\n",pageFaults);
+	//printf("Page Faults Rate: %d percent\n",(pageFaults/pageCounter));
 	return 0;
 }
