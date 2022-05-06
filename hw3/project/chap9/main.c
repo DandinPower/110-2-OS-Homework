@@ -76,7 +76,7 @@ void UpdateTlb(int pageNumber, int frames){
 }
 
 //根據logicaladdress轉換成physicaladdress
-int GetPhysicalAddress(int logicalAddress){
+void GetPhysicalAndFrames(int logicalAddress){
 	pageCounter++;
 	//先將logicalAddress轉換成pagenumber,offset
 	int pageNumber = GetPageNumber(logicalAddress);
@@ -105,13 +105,8 @@ int GetPhysicalAddress(int logicalAddress){
 		UpdateTlb(pageNumber, memoryIndex);
 	}
 	int physicalAddress = frames + offset;
-	return physicalAddress;
-}
-
-void GetValue(int logicalAddress){
-	int physical = GetPhysicalAddress(logicalAddress);
-	int values = memory[physical];
-	printf("virtual address: %d, physical address: %d, values: %d\n",logicalAddress,physical,values);
+	int values = memory[physicalAddress];
+	printf("virtual address: %d, physical address: %d, values: %d\n",logicalAddress,physicalAddress,values);
 }
 
 //檢查是否在PageTable
@@ -119,9 +114,9 @@ int main(int argc, char*argv[]){
 	InitializeTlb();
 	InitializeTable();
 	InitializeStore(argv[1]);
-	GetValue(16916);
-	GetValue(62493);
-	GetValue(30198);
+	GetPhysicalAndFrames(16916);
+	GetPhysicalAndFrames(62493);
+	GetPhysicalAndFrames(30198);
 	printf("Tlb Hit: %d\n",tlbHits);
 	printf("Page Faults: %d\n",pageFaults);
 	return 0;
