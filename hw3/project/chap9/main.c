@@ -22,15 +22,11 @@ int pageCounter = 0;
 int tlb[TLB_NUMS][2];
 int tlbCounter = 0;
 int pageTable[PAGE_ENTRIES];
-
 char str[80];
-
 char* storeData; 
 int storeFd;
-
 int memoryIndex = 0;
 char memory[MEMORY_SIZE];
-
 FILE *addressFile;
 FILE *outputFile;
 
