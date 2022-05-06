@@ -109,6 +109,7 @@ void GetPhysicalAndFrames(int logicalAddress){
 	int physicalAddress = frames + offset;
 	int values = memory[physicalAddress];
 	printf("virtual address: %d, physical address: %d, values: %d\n",logicalAddress,physicalAddress,values);
+	char * str = "testing...\n";
 	fwrite(str,1,strlen(str),outputFile);
 }
 
