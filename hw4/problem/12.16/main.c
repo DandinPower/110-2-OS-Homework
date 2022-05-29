@@ -22,6 +22,13 @@ int * AppendArray(int *list, int length, int value){
     return new;
 }
 
+int * InsertArray(int *list, int length, int value){
+    int* new = (int *)malloc(sizeof(int) * (length+1));
+    for (int i=0; i< length; i++)new[i+1] = list[i];
+    new[0] = value;
+    return new;
+}
+
 void SortArray(int *list){
     int i,j,temp;
     for(i = 0; i < LIST_LENGTH; i++){
@@ -131,14 +138,45 @@ int SCAN(){
     int* bigList = GetBiggerSlice(sortList,biggerIndex);
     //會需要appendArray是因為目前版本是一定先會往上
     bigList = AppendArray(bigList, bigLength,OVER);
+    //bigLength + 1是因為目前版本是一定先會往上
+    bigLength++;
     printf("%d ",head);
     int current = head;
-    //bigLength + 1是因為目前版本是一定先會往上
-    for (int i=0; i < bigLength + 1; i++){
+    for (int i=0; i < bigLength; i++){
         printf("%d ",bigList[i]);
         total = total + abs(bigList[i] - current);
         current = bigList[i];
     }
+    for (int i=0; i < smallLength; i++){
+        printf("%d ",smallList[i]);
+        total = total + abs(smallList[i] - current);
+        current = smallList[i];
+    }
+    printf("\n");
+    return total;
+}
+
+int CSCAN(){
+    int total = 0;
+    int *sortList = CopyList(waitingList);
+    SortArray(sortList);
+    int biggerIndex = FindBiggerElement(sortList);
+    int smallLength = biggerIndex;
+    int bigLength = LIST_LENGTH - biggerIndex;
+    int* smallList = GetSmallerSlice(sortList,smallLength);
+    smallList = InsertArray(smallList, smallLength, START);
+    smallLength++;
+    int* bigList = GetBiggerSlice(sortList,biggerIndex);
+    bigList = AppendArray(bigList, bigLength,OVER);
+    bigLength++;
+    printf("%d ",head);
+    int current = head;
+    for (int i=0; i < bigLength; i++){
+        printf("%d ",bigList[i]);
+        total = total + abs(bigList[i] - current);
+        current = bigList[i];
+    }
+    printf("\n");
     for (int i=0; i < smallLength; i++){
         printf("%d ",smallList[i]);
         total = total + abs(smallList[i] - current);
@@ -153,4 +191,5 @@ int main(int argc, char *argv[]){
     printf("FCFS: %d\n",FCFS());
     printf("SSTF: %d\n",SSTF());
     printf("SCAN: %d\n",SCAN());
+    printf("CSCAN: %d\n",CSCAN());
 }
