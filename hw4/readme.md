@@ -45,7 +45,7 @@
     
     ![擷取.JPG](image/%E6%93%B7%E5%8F%96%203.jpg)
     
-    - 在刪除file2.txt後file1.txt也被同步刪除了
+    - 在刪除file2.txt後file1.txt仍會保留
 - create a soft link
     
     ![擷取.JPG](image/%E6%93%B7%E5%8F%96%204.jpg)
